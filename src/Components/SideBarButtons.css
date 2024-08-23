@@ -1,0 +1,12 @@
+.MuiButton:hover{
+    background-color: "#12121D";
+}
+
+.MuiButton{
+    background-color: "#13121D";
+    width: '100%'; 
+    color:'white'; 
+    border: 'None'; 
+    cursor: "pointer";
+}
+

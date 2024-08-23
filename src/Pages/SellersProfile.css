@@ -1,0 +1,21 @@
+.custom-scrollbar {
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    /* height: 100%; */
+}
+
+/* style={{display: 'flex', flexDirection: 'column', maxHeight: '100vh', flexBasis: '80%'}} */
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #13121D;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #070C12;
+    border-radius: 10px;
+}
