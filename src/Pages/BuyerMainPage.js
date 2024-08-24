@@ -3,15 +3,42 @@ import { Box, Button, Grid, IconButton, Typography } from '@mui/joy';
 // import MusicCard2 from './MusicCard2';
 // import MusicCard2 from '../Components/MusicCard2';
 import MusicCard from '../Components/MusicCard';
-import {SearchRounded} from '@mui/icons-material';
-import {sign_out} from '../Backend/Auth'
-import { getAllSongsFromGlobal } from '../Backend/Data';
+// import {SearchRounded} from '@mui/icons-material';
+// import {sign_out} from '../Backend/Auth'
+import { getAllSongsFromGlobal, searchSeller } from '../Backend/Data';
 import SearchBar from '../Components/SearchBar';
+import SellerProfileSearchBuyer from '../Components/SellerProfileSearchBuyer';
+import SearchPageInBuyerMainPage from '../Components/SearchPageInBuyerMainPage';
+import SellersProfile from './SellersProfile';
 // import './Main.css';
+
+
+
+const Search = (Searchtext, SearchTextf) => {
+    SearchTextf(Searchtext)
+    searchSeller(Searchtext)
+}
 
 function BuyerMainPage({uid}) {
     let [list, setlist] = useState([]);
     let [search, searchf] = useState(false);
+    let [SearchText, SearchTextf] = useState('')
+    let [ClickProfile, ClickProfilef] = useState(false)
+    const [ProfileUid, ProfileUidf] = useState('')
+
+
+    function PopSellerProfilePage(){
+        ClickProfilef(false)
+        searchf(false)
+    }
+
+    function GoSellerProfilePage(puid){
+        // searchf(false)
+        ProfileUidf(puid)
+        ClickProfilef(true)
+    }
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,17 +62,7 @@ function BuyerMainPage({uid}) {
     }, []);
     return (
         <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            <SearchBar search={search} searchf={searchf}></SearchBar>
-            {/* <div className="custom-scrollbar"> */}
-            {/* <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
-                    {Array.from(Array(12)).map((_, index) => (
-                        <Grid xs={2} sm={4} md={4} key={index}>
-                            <MusicCard2 />
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box> */}
+            <SearchBar PopSellerProfilePage={PopSellerProfilePage} search={search} searchf={searchf} SearchText={Search} SearchTextf={SearchTextf} ></SearchBar>
             {
                 list.length === 0?
                 <Box height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -54,16 +71,18 @@ function BuyerMainPage({uid}) {
                     </Box>
                 </Box>:
                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                {<Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
-                    {Array.isArray(list) && list.map((data, index) => (
-                        <Grid xs={2} sm={4} md={4} key={index}>
-                            {/* <MusicCard2 uid={uid} data={data}/> */}
-                            <MusicCard uid={uid} data={data}/>
-                        </Grid>
-                    ))}
-                </Grid>}
-            </Box>
+                    <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
+                        {Array.isArray(list) && list.map((data, index) => (
+                            <Grid xs={2} sm={4} md={4} key={index}>
+                                {/* <MusicCard2 uid={uid} data={data}/> */}
+                                <MusicCard uid={uid} data={data}/>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
             }
+            {search? <SearchPageInBuyerMainPage ClickProfile={ClickProfile} GoSellerProfilePage={GoSellerProfilePage}></SearchPageInBuyerMainPage>: <Box></Box>}
+            {ClickProfile? <SellersProfile uid={ProfileUid}></SellersProfile>: <Box></Box>}
         </Box>
     );
 }

@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query } from "firebase/firestore";
+import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../firebase";
 
@@ -14,9 +14,9 @@ import { storage, db } from "../firebase";
 // }
 
 
-export async function getSeller(sellerId) {
+export async function getSeller(uid) {
     try {
-        const sellerRef = doc(db, 'users', 'seller', sellerId, 'data');
+        const sellerRef = doc(db, "seller", uid);
         const sellerSnap = await getDoc(sellerRef);
 
         if (sellerSnap.exists()) {
@@ -42,9 +42,9 @@ export async function getSeller(sellerId) {
     }
 }
 
-export async function getUserBack2(sellerId) {
+export async function getUserBack2(uid) {
     try {
-        const sellerRef = doc(db, 'users', 'buyer', sellerId, 'data');
+        const sellerRef = doc(db,'buyer', uid);
         const sellerSnap = await getDoc(sellerRef);
 
         if (sellerSnap.exists()) {
@@ -71,9 +71,9 @@ export async function getUserBack2(sellerId) {
     }
 }
 
-export async function getUserBack(sellerId) {
+export async function getUserBack(uid) {
     try {
-        const sellerRef = doc(db, 'users', 'seller', sellerId, 'data');
+        const sellerRef = doc(db,'seller', uid);
         const sellerSnap = await getDoc(sellerRef);
 
         if (sellerSnap.exists()) {
@@ -86,7 +86,7 @@ export async function getUserBack(sellerId) {
                 data: safeSellerData
             };
         } else {
-            const result = getUserBack2(sellerId)
+            const result = getUserBack2(uid)
             return result
         }
     } catch (error) {
@@ -102,10 +102,24 @@ export async function getUserBack(sellerId) {
 
 async function addSeller(email, password, name, user_name, uid) {
     try {
-        const sellerRef = doc(db, "users", "seller", uid, 'data');
+        function name2(name){
+            const date = Date.now()
+            let n = name.split(' ')[0]
+            date.toString().split('').slice(8).forEach((e)=>{
+                n += e
+            })
+            // console.log(n)
+            return n
+        }
+
+        let un = name2(name)
+
+        console.log(email, password, name, un)
+
+        const sellerRef = doc(db, "seller", uid);
         await setDoc(sellerRef, {
             name: name,
-            user_name: user_name,
+            user_name: un,
             email: email,
             password: password, // Note: In practice, never store plain text passwords
         });
@@ -119,10 +133,22 @@ async function addSeller(email, password, name, user_name, uid) {
 // Function to add a new buyer
 async function addBuyer(email, password, name, user_name, uid) {
     try {
-        const buyerRef = doc(db, "users", "buyer", uid, 'data');
+        function name2(name){
+            const date = Date.now()
+            let n = name.split(' ')[0]
+            date.toString().split('').slice(8).forEach((e)=>{
+                n += e
+            })
+            // console.log(n)
+            return n
+        }
+
+        let un = name2(name)
+
+        const buyerRef = doc(db, "buyer", uid);
         await setDoc(buyerRef, {
             name: name,
-            user_name: user_name,
+            user_name: un,
             email: email,
             password: password, // Note: In practice, never store plain text passwords
         });
@@ -133,9 +159,9 @@ async function addBuyer(email, password, name, user_name, uid) {
     }
 }
 
-export async function getBuyer(buyerId) {
+export async function getBuyer(uid) {
     try {
-        const buyerRef = doc(db, 'users', 'buyer', buyerId, 'data');
+        const buyerRef = doc(db, "buyer", uid);
         const buyerSnap = await getDoc(buyerRef);
 
         if (buyerSnap.exists()) {
@@ -314,7 +340,7 @@ export async function downloadSong(uid, songId, songName) {
         // // Clean up the temporary URL
         // URL.revokeObjectURL(blobUrl);
 
-        return { success: true, message: "Song download initiated", song : downloadURL };
+        return { success: true, message: "Song download initiated", song: downloadURL };
     } catch (error) {
         console.error("Error downloading song:", error);
         return { success: false, error: error.message };
@@ -327,15 +353,7 @@ async function addSongToSeller(uid, songData, songFile, songPicFile) {
     let songid = date.toString()
     try {
         // console.log(date.toString()) 
-        const songRef = doc(
-            db,
-            "users",
-            "seller",
-            uid,
-            'data',
-            "s_song_list",
-            songid
-        );
+        const songRef = doc(db,"seller",uid,"s_song_list",songid);
 
         // Upload song file to Cloud Storage
         const songFileRef = ref(
@@ -389,10 +407,8 @@ async function getSongDataOfSeller(uid, songid) {
     try {
         const songRef = doc(
             db,
-            "users",
             "seller",
             uid,
-            'data',
             "s_song_list",
             songid
         );
@@ -438,10 +454,8 @@ export async function getSongDataSellerAll(uid) {
     try {
         const songListRef = collection(
             db,
-            "users",
             "seller",
             uid,
-            'data',
             "s_song_list"
         );
 
@@ -479,7 +493,67 @@ export async function getSongDataSellerAll(uid) {
 //     return false;
 // }
 
-// Function to update a song
+export async function searchSeller(searchTerm) {
+    try {
+        // Create a reference to the users collection
+        const usersRef = collection(db, 'seller');
+
+        // Create a query against the collection
+        const q = query(usersRef, where('name', '==', searchTerm));
+
+        // Execute the query
+        const querySnapshot = await getDocs(q);
+        // console.log(querySnapshot.docs.length)
+
+        // Array to store matching users
+        const matchingUsers = [];
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() //is never undefined for query doc snapshots
+            matchingUsers.push({ id: doc.id, ...doc.data() });
+            // console.log({id: doc.id,...doc.data()})
+        });
+        console.log(matchingUsers)
+
+        return matchingUsers;
+    } catch (error) {
+        console.error("Error searching for user: ", error);
+        return [];
+    }
+}
+
+export async function getSellers(searchTerm) {
+    try {
+        // Create a reference to the users collection
+        const usersRef = collection(db, 'seller');
+
+        // Create a query against the collection
+        // const q = query(usersRef, where('name', '==', searchTerm));
+
+        // Execute the query
+        const querySnapshot = await getDocs(usersRef);
+        // console.log(querySnapshot.docs.length)
+
+        // Array to store matching users
+        const matchingUsers = [];
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() //is never undefined for query doc snapshots
+            matchingUsers.push({ id: doc.id, ...doc.data() });
+            // console.log({id: doc.id,...doc.data()})
+        });
+        console.log(matchingUsers)
+
+        return matchingUsers;
+    } catch (error) {
+        console.error("Error searching for user: ", error);
+        return [];
+    }
+}
+
+
+
+
 async function updateSong(
     uid,
     songId,
@@ -488,7 +562,7 @@ async function updateSong(
     newSongPicFile
 ) {
     try {
-        const songRef = doc(db, "users", "seller", uid, "s_song_list", songId);
+        const songRef = doc(db, "seller", uid, "s_song_list", songId);
 
         // Update song data in Firestore
         await updateDoc(songRef, updateData);
@@ -522,7 +596,7 @@ async function updateSong(
 async function deleteSong(uid, songId) {
     try {
         // Delete song data from Firestore
-        const songRef = doc(db, "users", "seller", uid, "s_song_list", songId);
+        const songRef = doc(db, "seller", uid, "s_song_list", songId);
         await deleteDoc(songRef);
 
         // Delete song files from Cloud Storage
@@ -554,7 +628,6 @@ async function addPurchasedSongToBuyer(
     try {
         const songRef = doc(
             db,
-            "users",
             "buyer",
             buyerId,
             "b_song_list",

@@ -35,7 +35,7 @@ function CollectionPage({ uid }) {
 
     return (
         <Box sx={{ overflowY: 'auto', '&::-webkit-scrollbar': { width: '12px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#13121D', borderRadius: '10px' }, '&::-webkit-scrollbar-track': { backgroundColor: '#070C12', borderRadius: '10px' } }} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            <SearchBar></SearchBar>
+            {/* <SearchBar></SearchBar> */}
             {/* <div className="custom-scrollbar"> */}
             {/* '#13121D' */}
             {

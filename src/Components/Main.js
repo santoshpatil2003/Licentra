@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { Box, Button, Grid, IconButton } from '@mui/joy';
 import MusicCard2 from './MusicCard2';
 import {SearchRounded} from '@mui/icons-material';
@@ -7,9 +7,10 @@ import SearchBar from './SearchBar';
 // import './Main.css';
 
 function Main() {
+    let [search, searchf] = useState(false);
     return (
-        <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            <SearchBar></SearchBar>
+        <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'90vh'} maxHeight={'90vh'} >
+            <SearchBar search={search} searchf={searchf}></SearchBar>
             {/* <div className="custom-scrollbar"> */}
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
                 <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>

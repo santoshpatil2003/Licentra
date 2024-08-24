@@ -62,24 +62,24 @@ function MusicCardShow({button_desable, uid, data}) {
     )
     return (
         <div onMouseEnter={()=>{enter(showf)}} onMouseLeave={()=>{leave(showf)}}>
-            <Box height={300} width={195} borderRadius={10}>
+            <Box bgcolor={'#13121D'} height={300} width={195} borderRadius={10}>
             {/* '#13121D' */}
-            <Box height={'61.5%'} display={'flex'} justifyContent={'center'} alignItems={'end'} >
-                <Card sx={{ minHeight: '22vh', width: '22vh', height: '22vh'}}>
-                    <CardCover>
-                        <img src={data.song_pic_url} loading="lazy" alt=""/>
-                    </CardCover>
-                </Card>
+                <Box height={'61.5%'} display={'flex'} justifyContent={'center'} alignItems={'end'} >
+                    <Card sx={{ minHeight: '22vh', width: '22vh', height: '22vh'}}>
+                        <CardCover>
+                            <img src={data.song_pic_url} loading="lazy" alt=""/>
+                        </CardCover>
+                    </Card>
+                </Box>
+                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    {title}
+                </Box>
+                {!show?<Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
+                    {cost}
+                </Box>: <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
+                    {edit}
+                </Box>}
             </Box>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                {title}
-            </Box>
-            {!show?<Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
-                {cost}
-            </Box>: <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
-                {edit}
-            </Box>}
-        </Box>
         </div>
     )
 }

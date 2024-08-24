@@ -10,6 +10,7 @@ import SearchBar from '../Components/SearchBar';
 
 function CollectionPageBuyer({ uid }) {
     let [list2, setlist2] = useState([]);
+    let [search, searchf] = useState(false);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -34,7 +35,7 @@ function CollectionPageBuyer({ uid }) {
 
     return (
         <Box sx={{ overflowY: 'auto', '&::-webkit-scrollbar': { width: '12px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#13121D', borderRadius: '10px' }, '&::-webkit-scrollbar-track': { backgroundColor: '#070C12', borderRadius: '10px' } }} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            <SearchBar></SearchBar>
+            <SearchBar search={search} searchf={searchf}></SearchBar>
             {/* <div className="custom-scrollbar"> */}
             {/* '#13121D' */}
             {

@@ -19,13 +19,12 @@ function App({ uid }) {
   let [user, userf] = useState('');
 
   useEffect(() => {
-    console.log(uid)
     const fetchUser = async () => {
       try {
         const result = await getUserBack(uid); 
         if (result.success) {
           console.log('User data:', result.data);
-          userf(result.user); // Update state
+          userf(result.user); 
         } else {
           console.error('Error:', result.message || result.error);
         }
