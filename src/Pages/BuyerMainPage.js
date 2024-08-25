@@ -75,14 +75,15 @@ function BuyerMainPage({uid}) {
                         {Array.isArray(list) && list.map((data, index) => (
                             <Grid xs={2} sm={4} md={4} key={index}>
                                 {/* <MusicCard2 uid={uid} data={data}/> */}
-                                <MusicCard uid={uid} data={data}/>
+                                <MusicCard b_uid={uid} uid={uid} data={data}></MusicCard>
+                                {/* <MusicCard  uid={uid} data={data}/> */}
                             </Grid>
                         ))}
                     </Grid>
                 </Box>
             }
             {search? <SearchPageInBuyerMainPage ClickProfile={ClickProfile} GoSellerProfilePage={GoSellerProfilePage}></SearchPageInBuyerMainPage>: <Box></Box>}
-            {ClickProfile? <SellersProfile uid={ProfileUid}></SellersProfile>: <Box></Box>}
+            {ClickProfile? <SellersProfile b_uid={uid} uid={ProfileUid}></SellersProfile>: <Box></Box>}
         </Box>
     );
 }

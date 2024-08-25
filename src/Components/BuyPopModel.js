@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Modal, ModalDialog, FormLabel, Typography, Input } from '@mui/joy';
+import { Box, Button, Modal, ModalDialog, FormLabel, Typography, Input, CircularProgress } from '@mui/joy';
 // import FormControl from '@mui/joy/FormControl';
 // import FormLabel from '@mui/joy/FormLabel';
 // import Input from '@mui/joy/Input';
@@ -13,9 +13,30 @@ import MusicCardShow from './MusicCardShow';
 import SelectUse from './SelectUse';
 import BuyMusicCard from './BuyMusicCard';
 import RestrictionShow from './RestrictionShow';
+import { TransactionSellerAndBuyer } from '../Backend/Data';
 
-export default function BuyPopModel({cost, pic, song_name,song_by ,restrictions}) {
+export default function BuyPopModel({ song_id ,b_uid, cost, pic, song_name,song_by ,restrictions, seller_id}) {
     const [open, setOpen] = React.useState(false);
+    const [buy, buyf] = React.useState(false);
+    const [use_case, use_casef] = React.useState('');
+
+
+    // React.useEffect(()=>{
+
+    // },[])
+
+    function BuyMusic(){
+        buyf(true);
+        TransactionSellerAndBuyer(b_uid,seller_id,song_id,cost,use_case).then(()=>{
+            buyf(false);
+        })
+    }
+
+
+
+
+
+
     return (
         <React.Fragment>
             {/* <Button variant="outlined" color="neutral" startDecorator={<Add />} onClick={() => setOpen(true)}>
@@ -58,11 +79,11 @@ export default function BuyPopModel({cost, pic, song_name,song_by ,restrictions}
                         </Box>
                         <Box height={'100%'} width={'50%'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
                             <Box width={'100%'}>
-                                <SelectUse></SelectUse>
+                                <SelectUse use_case={use_case} use_casef={use_casef}></SelectUse>
                             </Box>
                             <Box width={'100%'}>
-                                <Button variant='solid' fullWidth>
-                                    Own It
+                                <Button onClick={()=>{BuyMusic()}} variant='solid' fullWidth>
+                                    {buy?<CircularProgress></CircularProgress>: 'Own It'}
                                 </Button>
                             </Box>
                         </Box>

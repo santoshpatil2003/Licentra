@@ -7,30 +7,33 @@ import { sign_out } from '../Backend/Auth'
 import './CollectionPage.css'; // Import the CSS file
 import { getSongDataSellerAll } from '../Backend/Data';
 import SearchBar from '../Components/SearchBar';
+import { getSongCollectionDataOfBuyer } from '../Backend/Data';
+import MusicCardShow from '../Components/MusicCardShow';
 
 function CollectionPageBuyer({ uid }) {
     let [list2, setlist2] = useState([]);
     let [search, searchf] = useState(false);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const l = await getSongDataSellerAll(uid);
-    //             if (Array.isArray(l.songs)) {
-    //                 setlist2(l.songs); // Set state with the array
-    //             } else {
-    //                 console.error('Expected an array, but got:', l);
-    //                 setlist2([]); // Set to empty array or handle error as needed
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //             setlist2([]); // Handle error by setting an empty array
-    //         }
-    //     };
-
-    //     fetchData();
-    //     return () => { };
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const l = await getSongCollectionDataOfBuyer(uid);
+                if (Array.isArray(l.songs)) {
+                    setlist2(l.songs); // Set state with the array
+                    console.log(l)
+                } else {
+                    console.error('Expected an array, but got:', l);
+                    setlist2([]); // Set to empty array or handle error as needed
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setlist2([]); // Handle error by setting an empty array
+            }
+        };
+        fetchData();
+        // console.log(list2)
+        return () => { };
+    }, []);
 
 
     return (
@@ -49,7 +52,7 @@ function CollectionPageBuyer({ uid }) {
                 {<Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
                     {Array.isArray(list2) && list2.map((data, index) => (
                         <Grid xs={2} sm={4} md={4} key={index}>
-                            <MusicCard uid={uid} data={data}/>
+                            <MusicCardShow button_desable={true} uid={uid} data={data}/>
                         </Grid>
                     ))}
                 </Grid>}

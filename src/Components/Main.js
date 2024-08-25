@@ -9,7 +9,7 @@ import SearchBar from './SearchBar';
 function Main() {
     let [search, searchf] = useState(false);
     return (
-        <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'90vh'} maxHeight={'90vh'} >
+        <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'100vh'} maxHeight={'100vh'} >
             <SearchBar search={search} searchf={searchf}></SearchBar>
             {/* <div className="custom-scrollbar"> */}
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>

@@ -41,7 +41,7 @@ function App({ uid }) {
   if (user === 'seller') {
     return (<Box bgcolor={'#070C12'} display={"flex"} flexDirection={'row'} maxHeight={'100vh'}>
       <SideBar uid={uid} select_click={setSelected} selected={selected}></SideBar>
-      {selected === 0 ? <Main></Main> : selected === 1 ? <CollectionPage uid={uid}></CollectionPage> : selected === 2 ? <SellersAddCollections uid={uid}></SellersAddCollections> : <BuyersDataPage></BuyersDataPage>}
+      {selected === 0 ? <Main></Main> : selected === 1 ? <CollectionPage uid={uid}></CollectionPage> : selected === 2 ? <SellersAddCollections uid={uid}></SellersAddCollections> : <BuyersDataPage uid={uid}></BuyersDataPage>}
     </Box>);
   }else if (user === 'buyer'){
     return (

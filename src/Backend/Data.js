@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where } from "firebase/firestore";
+import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where, increment} from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../firebase";
 
@@ -166,7 +166,6 @@ export async function getBuyer(uid) {
 
         if (buyerSnap.exists()) {
             const buyerData = buyerSnap.data();
-            // Omit sensitive information like password
             const { password, ...safeBuyerData } = buyerData;
             return {
                 success: true,
@@ -403,7 +402,7 @@ async function addSongToSeller(uid, songData, songFile, songPicFile) {
 }
 
 
-async function getSongDataOfSeller(uid, songid) {
+export async function getSongDataOfSeller(uid, songid) {
     try {
         const songRef = doc(
             db,
@@ -422,30 +421,126 @@ async function getSongDataOfSeller(uid, songid) {
 
         const songData = songDoc.data();
 
-        // Get song file URL from Cloud Storage
-        const songFileRef = ref(
-            storage,
-            `user_files/seller/${uid}/songs/${songid}/${songData.song_name}.mp3`
-        );
-        const songUrl = await getDownloadURL(songFileRef);
-
-        // Get song picture URL from Cloud Storage
-        const songPicFileRef = ref(
-            storage,
-            `user_files/seller/${uid}/songs/${songid}/${songData.song_name}.jpg`
-        );
-        const songPicUrl = await getDownloadURL(songPicFileRef);
-
-        return {
-            success: true,
-            songData: {
-                ...songData,
-                songUrl,
-                songPicUrl
-            }
-        };
+        return { success: true, data:songData};
     } catch (error) {
         console.error("Error getting song data:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+
+
+export async function getSongCollectionDataOfBuyer(uid) {
+    try {
+        const songRef = collection(db, "buyer", uid, "b_song_list");
+
+        // Get song data from Firestore
+        const songDocs = await getDocs(songRef);
+
+        let songList = []
+
+        songDocs.forEach((doc)=>{
+            songList.push(doc.data())
+        })
+
+
+
+        return { success: true, songs: songList };
+    } catch (error) {
+        console.error("Error getting song data:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+
+
+
+
+
+export async function getSoldSongDataSeller(uid) {
+    try {
+        const songRef = collection(
+            db,
+            "seller",
+            uid,
+            "sold_song_list",
+        );
+
+        // Get song data from Firestore
+        const songDoc = await getDocs(songRef);
+
+        let songList = [];
+
+        songDoc.forEach((doc) => {
+            songList.push({
+                // song_id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        return { success: true, data:songList};
+    } catch (error) {
+        console.error("Error getting song data:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use_case) {
+    // const date = Date.now()           b_uid, s_uid, songid, price
+    // let songid = date.toString()
+    function CreateDate(){
+        const date = Date()
+        let l = date.toString().split(' ').slice(1,4)
+        let d = ''
+        l.forEach((e)=>{
+            d = `${d} ` + e
+        })
+        return d
+    }
+
+    try {
+        let musicData = await getSongDataOfSeller(s_uid,songid)
+
+        const b_songRef = doc(db,"buyer",b_uid,"b_song_list",songid);
+        const s_songRef = doc(db,"seller",s_uid,"sold_song_list",songid);
+        const global_songRef = doc(db,"musics","transactions","musics_list",songid);
+
+        const sellerRef = doc(db,"seller",s_uid);
+
+        const date = CreateDate()
+        
+        await updateDoc(sellerRef, {
+            amount_made: increment(price)
+        });
+        
+        await setDoc(b_songRef, {
+            buyer_id: b_uid,
+            seller_id: s_uid,
+            use_case: use_case,
+            date: date,
+            ...musicData.data
+        });
+
+        await setDoc(s_songRef, {
+            buyer_id: b_uid,
+            seller_id: s_uid,
+            use_case: use_case,
+            date: date,
+            ...musicData.data
+        });
+
+        await setDoc(global_songRef, {
+            buyer_id: b_uid,
+            seller_id: s_uid,
+            use_case: use_case,
+            date: date,
+            ...musicData.data
+        });
+
+        return { success: false, message:  "Transaction completed" };
+
+    } catch (error) {
+        console.error("Error adding song:", error);
         return { success: false, error: error.message };
     }
 }

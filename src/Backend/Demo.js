@@ -1,15 +1,33 @@
+const date = Date()
+let l = date.toString().split(' ').slice(1,4)
+let d = ''
+l.forEach((e)=>{
+    d = `${d} ` + e
+})
+console.log(d)
 
 
-function name2(name){
-    const date = Date.now()
-    let n = name
-    date.toString().split('').slice(8).forEach((e)=>{
-        n += e
+function CreateDate(){
+    const date = Date()
+    let l = date.toString().split(' ').slice(1,4)
+    let d = ''
+    l.forEach((e)=>{
+        d = `${d} ` + e
     })
-    console.log(n)
+    return d
 }
 
-name2('sunny')
+
+// function name2(name){
+//     const date = Date.now()
+//     let n = name
+//     date.toString().split('').slice(8).forEach((e)=>{
+//         n += e
+//     })
+//     console.log(n)
+// }
+
+// name2('sunny')
 // console.log()
 
 // let data2 = []

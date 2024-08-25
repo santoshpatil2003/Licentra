@@ -29,13 +29,14 @@ const leave = (showf, setHeight, height) => {
 // });
 
 
-function MusicCard({ uid, data }) {
+function MusicCard({b_uid, uid, data }) {
     const [show, showf] = useState(false);
     const [height, setHeight] = useState(0);
     let [pause, pausef] = useState(true)
     let [SongUrl, SongUrlf] = useState('')
     let song = new Audio(Audiof)
     const audioRef = useRef(song)
+    // console.log('datattttttt', data)
 
     // function playAudio(p) {
     //     if (!p) {
@@ -69,7 +70,7 @@ function MusicCard({ uid, data }) {
     useEffect(()=>{
         // console.log("jsjscjvn",data)
         name() 
-        
+        // console.log(data)
     },[]);
 
 
@@ -102,7 +103,7 @@ function MusicCard({ uid, data }) {
                 </Button>
             </Box> */}
             <Box>
-                <BuyPopModel pic={data.song_pic_url} cost={data.song_price} song_name={data.song_name} song_by={data.song_by} restrictions={data.restrictions} ></BuyPopModel>
+                <BuyPopModel song_id={data.song_id} b_uid={b_uid} seller_id={data.seller_id} pic={data.song_pic_url} cost={data.song_price} song_name={data.song_name} song_by={data.song_by} restrictions={data.restrictions} ></BuyPopModel>
                 {/* <Button variant='solid' fullWidth>
                     18$
                 </Button> */}

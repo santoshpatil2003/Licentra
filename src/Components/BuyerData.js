@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useState, useEffect} from 'react';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import Accordion from '@mui/joy/Accordion';
 import AccordionDetails, {
@@ -29,6 +29,7 @@ import ZoomInRoundedIcon from '@mui/icons-material/ZoomInRounded';
 import SpatialTrackingRoundedIcon from '@mui/icons-material/SpatialTrackingRounded';
 import SettingsVoiceRoundedIcon from '@mui/icons-material/SettingsVoiceRounded';
 import images from "./images.jpeg"
+import { getBuyer } from '../Backend/Data';
 
 // export default function BuyerData() {
 //     return (
@@ -160,7 +161,17 @@ import images from "./images.jpeg"
 
 
 
-export default function BuyerData() {
+export default function BuyerData({data}) {
+    let [BuyerName, BuyerNamef] = useState('')
+
+    async function fet(){
+        let d = (await getBuyer(data.buyer_id)).data
+        BuyerNamef(d.name)
+    }
+
+    useEffect(()=>{
+        fet()
+    },[])
     return (
         <AccordionGroup variant="plain" transition="0.2s"
             sx={{
@@ -193,54 +204,54 @@ export default function BuyerData() {
                     </Avatar> */}
                     <Card sx={{width: '4%', height: '80%', padding: '1%'}}>
                         <CardCover>
-                            <img src={images} loading="lazy" alt=""/>
+                            <img src={data.song_pic_url} loading="lazy" alt=""/>
                         </CardCover>
                     </Card>
                     <ListItemContent>
-                        <Typography level="title-md" sx={{color: 'white'}}>Paradise</Typography>
+                        <Typography level="title-md" sx={{color: 'white'}}>{data.song_name}</Typography>
                         <Typography level="body-sm">
-                            Justin Bieber, Selena Gomez...
+                            {data.song_by}
                         </Typography>
                     </ListItemContent>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Stack spacing={1.5}>
-                        <FormControl orientation="horizontal" sx={{ gap: '82%' }}>
+                        <FormControl orientation="horizontal" sx={{ gap: '67%' }}>
                             {/* <AirplanemodeActiveRoundedIcon fontSize="xl2" sx={{ mx: 1 }} /> */}
                             <Typography paddingLeft={'0.5%'} level="body-sm">
                                 Buyer
                             </Typography>
-                            <FormLabel sx={{color: 'white'}}>Santosh Patil</FormLabel>
+                            <FormLabel sx={{color: 'white'}}>{BuyerName}</FormLabel>
                             {/* <Switch size="sm" /> */}
                         </FormControl>
 
-                        <FormControl orientation="horizontal" sx={{ gap: '80%' }}>
+                        <FormControl orientation="horizontal" sx={{ gap: '65%' }}>
                             {/* <AirplanemodeActiveRoundedIcon fontSize="xl2" sx={{ mx: 1 }} /> */}
                             <Typography paddingLeft={'0.5%'} level="body-sm">
                                 Buyer ID
                             </Typography>
-                            <FormLabel sx={{color: 'white'}}>12345678904</FormLabel>
+                            <FormLabel sx={{color: 'white'}}>{data.buyer_id}</FormLabel>
                             {/* <Switch size="sm" /> */}
                         </FormControl>
 
-                        <FormControl orientation="horizontal" sx={{ gap: '82.6%' }}>
+                        <FormControl orientation="horizontal" sx={{ gap: '67.6%' }}>
                             {/* <WifiRoundedIcon fontSize="xl2" sx={{ mx: 1 }} />
                             <FormLabel sx={{color: 'white'}}>Wi-Fi</FormLabel>
                             <Switch size="sm" /> */}
                             <Typography paddingLeft={'0.5%'} level="body-sm">
                                 Date
                             </Typography>
-                            <FormLabel sx={{color: 'white'}}>25 June 2024</FormLabel>
+                            <FormLabel sx={{color: 'white'}}>{data.date}</FormLabel>
                         </FormControl>
 
-                        <FormControl orientation="horizontal" sx={{ gap: '82.7%' }}>
+                        <FormControl orientation="horizontal" sx={{ gap: '68%' }}>
                             {/* <BluetoothRoundedIcon fontSize="xl2" sx={{ mx: 1 }} />
                             <FormLabel sx={{color: 'white'}}>Bluetooth</FormLabel>
                             <Switch size="sm" /> */}
                             <Typography paddingLeft={'0.5%'} level="body-sm">
                                 Cost
                             </Typography>
-                            <FormLabel sx={{color: 'white'}}>100$</FormLabel>
+                            <FormLabel sx={{color: 'white'}}>{`${data.song_price}$`}</FormLabel>
                         </FormControl>
                     </Stack>
                 </AccordionDetails>
