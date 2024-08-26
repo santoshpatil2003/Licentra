@@ -612,13 +612,13 @@ export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use
         const s_songRef = doc(db,"seller",s_uid,"sold_song_list",songid);
         const global_songRef = doc(db,"musics","transactions","musics_list",songid);
 
-        // const sellerRef = doc(db,"seller",s_uid);
+        const sellerRef = doc(db,"seller",s_uid);
 
         const date = CreateDate()
         
-        // await updateDoc(sellerRef, {
-        //     amount_made_on: increment(price)
-        // });
+        await updateDoc(sellerRef, {
+            sold: increment(1)
+        });
         await updateAmountMadeOn(s_uid, price, date.month, date.year)
         
         await setDoc(b_songRef, {

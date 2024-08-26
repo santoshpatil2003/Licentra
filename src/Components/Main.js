@@ -1,13 +1,26 @@
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import { Box, Typography} from '@mui/joy';
 // import MusicCard2 from './MusicCard2';
 // import SearchBar from './SearchBar';
 // import SalesGraph from './SalesGraph';
 import SalesBarGraph from './SalesBarGraph';
+import { getSeller, getSongDataSellerAll } from '../Backend/Data';
 
 function Main({uid}) {
-    let [search, searchf] = useState(false);
     let [totalsales, totalsalesf] = useState(0)
+    const [MusicList2, MusicListf2] = useState([])
+    const [ProfileData2, ProfileDataf2] = useState({})
+
+    async function GetSellerData(){
+        let SellerData = await getSeller(uid)
+        let MusicDataList = await getSongDataSellerAll(uid)
+        MusicListf2(MusicDataList.songs)
+        ProfileDataf2(SellerData.data)
+    }
+
+    useEffect(()=>{
+        GetSellerData()
+    },[uid])
     return (
         <Box justifyContent={'center'} alignItems={'center'} sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'100vh'} maxHeight={'100vh'} >
             <Box height={'90%'} width={'97%'} >
@@ -28,7 +41,7 @@ function Main({uid}) {
                                 <Typography sx={{color: 'white'}}>Sold</Typography>
                             </Box>
                             <Box width={'fit-content'}>
-                                <Typography sx={{color: 'white'}}>0</Typography>
+                                <Typography sx={{color: 'white'}}>{`${ProfileData2.sold}`}</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -38,7 +51,7 @@ function Main({uid}) {
                                 <Typography sx={{color: 'white'}}>Collections</Typography>
                             </Box>
                             <Box width={'fit-content'}>
-                                <Typography sx={{color: 'white'}}>0</Typography>
+                                <Typography sx={{color: 'white'}}>{`${MusicList2.length}`}</Typography>
                             </Box>
                         </Box>
                     </Box>
