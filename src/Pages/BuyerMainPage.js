@@ -1,16 +1,11 @@
 import {React, useState, useEffect} from 'react';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/joy';
-// import MusicCard2 from './MusicCard2';
-// import MusicCard2 from '../Components/MusicCard2';
+import { Box, Grid, Typography } from '@mui/joy';
 import MusicCard from '../Components/MusicCard';
-// import {SearchRounded} from '@mui/icons-material';
-// import {sign_out} from '../Backend/Auth'
 import { getAllSongsFromGlobal, searchSeller } from '../Backend/Data';
 import SearchBar from '../Components/SearchBar';
-import SellerProfileSearchBuyer from '../Components/SellerProfileSearchBuyer';
 import SearchPageInBuyerMainPage from '../Components/SearchPageInBuyerMainPage';
 import SellersProfile from './SellersProfile';
-// import './Main.css';
+
 
 
 
@@ -33,7 +28,6 @@ function BuyerMainPage({uid}) {
     }
 
     function GoSellerProfilePage(puid){
-        // searchf(false)
         ProfileUidf(puid)
         ClickProfilef(true)
     }
@@ -43,7 +37,6 @@ function BuyerMainPage({uid}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // const l = await getSongDataSellerAll(uid);
                 const l = await getAllSongsFromGlobal()
                 if (Array.isArray(l.data)) {
                     setlist(l.data); 
@@ -74,9 +67,7 @@ function BuyerMainPage({uid}) {
                     <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
                         {Array.isArray(list) && list.map((data, index) => (
                             <Grid xs={2} sm={4} md={4} key={index}>
-                                {/* <MusicCard2 uid={uid} data={data}/> */}
                                 <MusicCard b_uid={uid} uid={uid} data={data}></MusicCard>
-                                {/* <MusicCard  uid={uid} data={data}/> */}
                             </Grid>
                         ))}
                     </Grid>

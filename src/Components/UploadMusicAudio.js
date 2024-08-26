@@ -18,9 +18,8 @@ const VisuallyHiddenInput = styled('input')({
 export default function UploadMusicAudio({ variant, AudioFilef }) {
     const [fileAdded, setFileAdded] = useState(false);
 
-    // Change handler function
     const handleFileChange = (event) => {
-        const file = event.target.files[0]; // Get the selected file
+        const file = event.target.files[0]; 
         if (file) {
             if (file.type.startsWith('audio/')) {
                 if (typeof AudioFilef === 'function') {
@@ -31,23 +30,12 @@ export default function UploadMusicAudio({ variant, AudioFilef }) {
                 setFileAdded(true);
             } else {
                 console.error('Selected file is not an audio file.');
-                event.target.value = ''; // Clear the input
+                event.target.value = ''; 
             }
         }
     };
 
     return (
-        // <Button
-        //     component="label"
-        //     role={undefined}
-        //     variant={variant}
-        //     tabIndex={-1}
-        //     startIcon={<CloudUploadIcon />}
-        //     // sx={{zIndex: -1}}
-        // >
-        //     {fileAdded ? 'File Added' : 'Upload Music'}
-        //     {!fileAdded && <VisuallyHiddenInput type="file" accept="audio/*" onChange={handleFileChange} />}
-        // </Button>
         <Button
             component="label"
             role={undefined}

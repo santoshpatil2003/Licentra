@@ -70,7 +70,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/joy';
-import { SearchRounded } from '@mui/icons-material';
 import './SellersProfile.css';
 import BuyerData from '../Components/BuyerData';
 import { getSoldSongDataSeller } from '../Backend/Data';
@@ -78,22 +77,22 @@ import { getSoldSongDataSeller } from '../Backend/Data';
 function BuyersDataPage({ uid }) {
     const [SoldList, setSoldList] = useState([]); 
 
-    async function FetchSoldSongs() {
-        try {
-            let songData = await getSoldSongDataSeller(uid);
-            if (songData && songData.data) { 
-                setSoldList(songData.data);
-                console.log(songData.data)
-            } else {
+    useEffect(() => {
+        async function FetchSoldSongs() {
+            try {
+                let songData = await getSoldSongDataSeller(uid);
+                if (songData && songData.data) { 
+                    setSoldList(songData.data);
+                    console.log(songData.data)
+                } else {
+                    setSoldList([]);
+                }
+            } catch (error) {
+                console.error("Error fetching sold songs:", error);
                 setSoldList([]);
             }
-        } catch (error) {
-            console.error("Error fetching sold songs:", error);
-            setSoldList([]);
         }
-    }
-
-    useEffect(() => {
+        
         FetchSoldSongs();
     }, [uid]);
 
@@ -106,11 +105,8 @@ function BuyersDataPage({ uid }) {
             ) : (<Box display={'flex'} justifyContent={'flex-start'} alignItems={'center'} flexDirection={'column'}>
                     <Grid container height={'auto'} spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} padding={'1%'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                         {SoldList.map((data, index) => (
-                            <BuyerData key={index} data={data} /> // Pass data as a prop if needed
+                            <BuyerData key={index} data={data}/> 
                         ))}
-                        {/* {Array.from(Array(10)).map((data, index) => (
-                            <BuyerData></BuyerData>
-                        ))} */}
                     </Grid>
                 </Box>
             )}

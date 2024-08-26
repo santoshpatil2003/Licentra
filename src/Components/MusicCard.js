@@ -1,8 +1,5 @@
 import { React, useEffect, useState, useRef } from 'react';
-// import AnimateHeight from 'react-animate-height'
-import { Card, CardCover, CardContent, Typography, Button, Box, IconButton } from '@mui/joy';
-// import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import images from "./images.jpeg"
+import { Card, CardCover, CardContent, Typography, Box, IconButton } from '@mui/joy';
 import BuyPopModel from './BuyPopModel';
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
 import PauseCircleFilledOutlinedIcon from '@mui/icons-material/PauseCircleFilledOutlined';
@@ -19,15 +16,6 @@ const leave = (showf, setHeight, height) => {
     setHeight(height = 0)
 }
 
-// await setDoc(songRef, {
-//     song_id: songid,
-//     song_by: songData.song_by,
-//     song_name: songData.song_name,
-//     song_price: songData.song_price,
-//     restrictions: songData.restrictions,
-//     collaborators: songData.collaborators || [],
-// });
-
 
 function MusicCard({b_uid, uid, data }) {
     const [show, showf] = useState(false);
@@ -36,28 +24,17 @@ function MusicCard({b_uid, uid, data }) {
     let [SongUrl, SongUrlf] = useState('')
     let song = new Audio(Audiof)
     const audioRef = useRef(song)
-    // console.log('datattttttt', data)
-
-    // function playAudio(p) {
-    //     if (!p) {
-    //         pausef(true)
-    //         song.play()
-    //     }else if (p){
-    //         pausef(false)
-    //         song.pause()
-    //     }
-    // }
-
+    
     const playAudio = () => {
         if (pause) {
             audioRef.current.play().then(() => {
-                pausef(false); // Update state to reflect that audio is playing
+                pausef(false); 
             }).catch(error => {
                 console.error('Error playing audio:', error);
             });
         } else {
             audioRef.current.pause();
-            pausef(true); // Update state to reflect that audio is paused
+            pausef(true); 
         }
     };
 
@@ -68,26 +45,18 @@ function MusicCard({b_uid, uid, data }) {
     }
 
     useEffect(()=>{
-        // console.log("jsjscjvn",data)
+        
         name() 
-        // console.log(data)
+        
     },[]);
 
 
     const title = (
         <CardContent sx={{ justifyContent: 'flex-end' }}>
-            {/* <CardContent>
-                <Box height={'90%'}>
-                    <Box display={'flex'} justifyContent={'end'}>
-                        <IconButton><PlayCircleFilledOutlinedIcon sx={{color: 'white'}} ></PlayCircleFilledOutlinedIcon></IconButton>
-                    </Box>
-                </Box>
-            </CardContent> */}
             <Typography level="title-lg" textColor="#fff">
                 {data.song_name}
             </Typography>
             <Typography
-                // startDecorator={<LocationOnRoundedIcon />}
                 textColor="neutral.300"
             >
                 {data.song_by}
@@ -97,16 +66,8 @@ function MusicCard({b_uid, uid, data }) {
 
     const cost = (
         <CardContent style={{ justifyContent: 'flex-end', height: { height } }}>
-            {/* <Box sx={{transition: 'height 0.3s ease-in-out', height: height}}>
-                <Button variant='solid' fullWidth>
-                    18$
-                </Button>
-            </Box> */}
             <Box>
                 <BuyPopModel song_id={data.song_id} b_uid={b_uid} seller_id={data.seller_id} pic={data.song_pic_url} cost={data.song_price} song_name={data.song_name} song_by={data.song_by} restrictions={data.restrictions} ></BuyPopModel>
-                {/* <Button variant='solid' fullWidth>
-                    18$
-                </Button> */}
             </Box>
         </CardContent>
     )
@@ -114,7 +75,7 @@ function MusicCard({b_uid, uid, data }) {
         <div style={{ width: '100%', height: '100%' }} onMouseEnter={() => { enter(showf, setHeight, height) }} onMouseLeave={() => { leave(showf, setHeight, height) }} >
             <Card sx={{ minHeight: '180px', width: "84%", height: "70%" }}>
                 <CardCover>
-                    {/* <img src={images} loading="lazy" alt=""/> */}
+
                     <img src={data.song_pic_url} loading="lazy" alt="" />
                 </CardCover>
                 <CardCover

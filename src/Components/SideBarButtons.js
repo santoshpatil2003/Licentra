@@ -1,29 +1,4 @@
-// import React from 'react'
-// import {Box, Button} from '@mui/joy';
-// import "./SideBarButtons.css";
-
-
-// function SideBarButtons({name}) {
-//   return (
-//     <Box width={'100%'} height={'12%'} display={'flex'} justifyContent={'center'}>
-//         {/* <button className="MuiButton-root" type="button"  style={{backgroundColor:'#13121D', width: '100%', color:'white', border: 'None', cursor: "pointer"}}>
-//             {name}
-//         </button> */}
-//         <button className={"MuiButton"} type="button">
-//             {name}
-//         </button>
-
-//         {/* <Button variant='plain' fullWidth>
-//           {name}
-//         </Button> */}
-//     </Box>
-//   )
-// }
-
-// export default SideBarButtons
-
-
-import {React, useState} from 'react';
+import {React} from 'react';
 import { Box, Button } from '@mui/joy';
 
 const clic = (select_click, selected, index) => {
@@ -32,7 +7,6 @@ const clic = (select_click, selected, index) => {
 }
 
 function SideBarButtons({ name, select_click, selected, index }) {
-    // const [c, cf] = useState(false)
 
     const bclick = {
         backgroundColor: '#13121D',

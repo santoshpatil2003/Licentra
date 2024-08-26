@@ -1,12 +1,7 @@
 import { React, useEffect, useState } from 'react';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/joy';
-// import MusicCard from './MusicCard';
-import MusicCard from '../Components/MusicCard';
-import { SearchRounded } from '@mui/icons-material';
-import { sign_out } from '../Backend/Auth'
-import './CollectionPage.css'; // Import the CSS file
+import { Box, Grid, Typography } from '@mui/joy';
+import './CollectionPage.css'; 
 import { getSongDataSellerAll } from '../Backend/Data';
-import SearchBar from '../Components/SearchBar';
 import MusicCardShow from '../Components/MusicCardShow';
 
 function CollectionPage({ uid }) {
@@ -17,27 +12,25 @@ function CollectionPage({ uid }) {
             try {
                 const l = await getSongDataSellerAll(uid);
                 if (Array.isArray(l.songs)) {
-                    setlist(l.songs); // Set state with the array
+                    setlist(l.songs); 
                 } else {
                     console.error('Expected an array, but got:', l);
-                    setlist([]); // Set to empty array or handle error as needed
+                    setlist([]); 
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setlist([]); // Handle error by setting an empty array
+                setlist([]);
             }
         };
 
         fetchData();
         return () => { };
-    }, []);
+    }, [uid]);
 
 
     return (
         <Box sx={{ overflowY: 'auto', '&::-webkit-scrollbar': { width: '12px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#13121D', borderRadius: '10px' }, '&::-webkit-scrollbar-track': { backgroundColor: '#070C12', borderRadius: '10px' } }} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            {/* <SearchBar></SearchBar> */}
-            {/* <div className="custom-scrollbar"> */}
-            {/* '#13121D' */}
+            
             {
                 list.length === 0?
                 <Box height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -49,7 +42,7 @@ function CollectionPage({ uid }) {
                 {<Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
                     {Array.isArray(list) && list.map((data, index) => (
                         <Grid xs={2} sm={4} md={4} key={index}>
-                            {/* <MusicCard uid={uid} data={data}/> */}
+                            
                             <MusicCardShow button_desable={true} uid={uid} data={data}></MusicCardShow>
                         </Grid>
                     ))}
@@ -57,7 +50,7 @@ function CollectionPage({ uid }) {
             </Box>
             }
             
-            {/* </div> */}
+    
         </Box>
     );
 }

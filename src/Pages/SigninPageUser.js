@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Input, Button, Box, Typography, CircularProgress, Snackbar } from '@mui/joy';
 import { sign_in_buyer, sign_up_buyer } from '../Backend/Auth';
 
@@ -34,7 +33,6 @@ const SigninPageUser = () => {
 
     const addBuyer = async () => {
         setIsLoading(true);
-        // const user = await userData.add_user();
         const user = sign_up_buyer(email, password, name, "sunny200")
 
         setIsLoading(false);
@@ -48,11 +46,7 @@ const SigninPageUser = () => {
         } else if (user === -1) {
             setSnackbarMessage("Some error occurred, check your internet connection and try again");
         } else {
-            // userData.createUser(agentData.name, user.uid);
-            // agentData.set_uuid(user.uid);
-            // if (agentData.get_user_data(user.uid) !== null) {
-            //     navigate("/home")
-            // }
+            setSnackbarMessage("User created successfully");
         }
 
         setSnackbarOpen(true);
@@ -71,10 +65,7 @@ const SigninPageUser = () => {
                 setSnackbarMessage("Add valid credentials");
             } else {
                 setSnackbarMessage("User signed in successfully");
-                // agentData.set_uuid(uid);
-                // if (agentData.get_user_data(uid) !== null) {
-                //     navigate("/home")
-                // }
+                
             }
         } catch (error) {
             setSnackbarMessage("An error occurred while signing in.");

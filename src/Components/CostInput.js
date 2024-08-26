@@ -18,13 +18,9 @@
 
 // export default CostInput
 
-import {React, useState, forwardRef} from 'react';
-// import PropTypes from 'prop-types';
-import { Box, Input, FormControl, FormHelperText, FormLabel, Textarea } from '@mui/joy'
+import {React, forwardRef} from 'react';
+import {Input, FormControl, FormHelperText, FormLabel} from '@mui/joy'
 import { NumericFormat } from 'react-number-format';
-// import FormControl from '@mui/joy/FormControl';
-// import FormLabel from '@mui/joy/FormLabel';
-// import Input from '@mui/joy/Input';
 
 const NumericFormatAdapter = forwardRef(
     function NumericFormatAdapter(props, ref) {
@@ -50,17 +46,12 @@ const NumericFormatAdapter = forwardRef(
     },
 );
 
-// NumericFormatAdapter.propTypes = {
-//     name: PropTypes.string.isRequired,
-//     onChange: PropTypes.func.isRequired,
-// };
 
 function CostInput({costf}) {
     return (
         <FormControl>
             <FormLabel sx={{ color: 'white' }}>Synchronization License’s Price</FormLabel>
             <Input
-                // value={value}
                 sx={{backgroundColor: '#13121D', border: 'none', color: "white", outline: 'none'}}
                 onChange={(event) => costf(event.target.value)}
                 placeholder="Add Price"

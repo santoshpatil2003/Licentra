@@ -1,17 +1,6 @@
-import {React, useState} from 'react'
+import {React} from 'react'
 import { Box, Typography, Button } from '@mui/joy'
 
-// function Increment(count, setCount, listincrement, list, setlist) {
-//     setCount(count + 1)
-//     listincrement(list, setlist, true)
-// }
-
-// function Decrement(count, setCount, listincrement, list, setlist) {
-//     if (count != 0) {
-//         setCount(count - 1)
-//         listincrement(list, setlist, false)
-//     }
-// }
 
 function CollaberatorsIncriment({ AddCollab, count, setCount, listincrement, list, setlist, collaboratorsn, collaboratorse, collaboratorsp}) {
     function Increment(count, setCount, listincrement, list, setlist) {
@@ -23,7 +12,7 @@ function CollaberatorsIncriment({ AddCollab, count, setCount, listincrement, lis
     }
 
     function Decrement(count, setCount, listincrement, list, setlist) {
-        if (count != 0) {
+        if (count !== 0) {
             setCount(count - 1)
             listincrement(list, setlist, false)
             AddCollab(false)

@@ -1,28 +1,7 @@
-// CollaberatorProfileCard
 import { React, useState } from 'react';
 import { Card, CardCover, CardContent, Typography, Button, Box } from '@mui/joy';
 import images from "./images.jpeg"
 
-// const enter = (showf, setHeight, height) => {
-//     showf(true)
-//     setHeight(height === 0 ? '20%' : 0)
-// }
-
-// const leave = (showf, setHeight, height) => {
-//     showf(false)
-//     setHeight(height = 0)
-// }
-
-// usernameTaken: async (name) => {
-//     await db.collection("users").get().then(querySnapshot => {
-//         querySnapshot.forEach(documentSnapshot => {
-//             if (documentSnapshot.data().username === name) {
-//                 return true;
-//             }
-//         });
-//     });
-//     return false;
-// }
 
 
 function CollaberatorProfileCard({show, button_desable }) {
@@ -68,17 +47,8 @@ function CollaberatorProfileCard({show, button_desable }) {
                         <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
                             {title}
                         </Box>
-                        {/* <Box display={'flex'} justifyContent={'start'} alignItems={'center'} width={'100%'} height={'60%'} >
-                            {cost}
-                        </Box> */}
                     </Box>
                 </Box>
-                {/* <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                    {title}
-                </Box>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
-                    {cost}
-                </Box> */}
             </Box>
         </Box>
         

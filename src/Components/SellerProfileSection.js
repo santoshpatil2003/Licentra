@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid,Typography } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
 import images from './images.jpeg'
 
 function Count({ name, count }) {

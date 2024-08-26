@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Box from '@mui/joy/Box'; // Import Box from MUI Joy (if using Joy UI) or use a plain div
+import Box from '@mui/joy/Box'; 
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -20,10 +20,9 @@ export default function UploadMusicPic({ variant, ImageFilef }) {
     const [fileAdded, setFileAdded] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
 
-    // Change handler function
+    
     const handleFileChange = (event) => {
-        const file = event.target.files[0]; // Get the selected file
-
+        const file = event.target.files[0]; 
         if (file) {
             if (file.type.startsWith('image/')) {
                 if (typeof ImageFilef === 'function') {
@@ -33,12 +32,11 @@ export default function UploadMusicPic({ variant, ImageFilef }) {
                 }
                 setFileAdded(true);
 
-                // Create a URL for the image file
                 const url = URL.createObjectURL(file);
                 setImageUrl(url);
             } else {
                 console.error('Selected file is not an image.');
-                event.target.value = ''; // Clear the input
+                event.target.value = ''; 
             }
         }
     };
@@ -68,7 +66,7 @@ export default function UploadMusicPic({ variant, ImageFilef }) {
                         borderRadius: '8px',
                         overflow: 'hidden',
                         boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                        backgroundColor: 'grey.200', // Optional: background color for better visibility
+                        backgroundColor: 'grey.200',
                     }}
                 >
                     <img

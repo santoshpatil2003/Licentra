@@ -1,28 +1,6 @@
-// CollaberatorProfileCard
-import { React, useState } from 'react';
-import { Card, CardCover, CardContent, Typography, Button, Box, Avatar } from '@mui/joy';
+import { React } from 'react';
+import {CardContent, Typography, Box, Avatar } from '@mui/joy';
 import images from "./images.jpeg"
-
-// const enter = (showf, setHeight, height) => {
-//     showf(true)
-//     setHeight(height === 0 ? '20%' : 0)
-// }
-
-// const leave = (showf, setHeight, height) => {
-//     showf(false)
-//     setHeight(height = 0)
-// }
-
-// usernameTaken: async (name) => {
-//     await db.collection("users").get().then(querySnapshot => {
-//         querySnapshot.forEach(documentSnapshot => {
-//             if (documentSnapshot.data().username === name) {
-//                 return true;
-//             }
-//         });
-//     });
-//     return false;
-// }
 
 
 function SellerProfileSearchBuyer({show, Name, UserName, image, GoSellerProfilePage, puid}) {
@@ -42,7 +20,6 @@ function SellerProfileSearchBuyer({show, Name, UserName, image, GoSellerProfileP
         <div onClick={()=>{GoSellerProfilePage(puid)}} style={{height: '10vh', width: '100%', borderRadius: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Box height={'100%'} width={'100%'}  sx={{'&:hover': {cursor: 'pointer'}}}>
                 <Box bgcolor={'black'} margin={'1%'} height={'100%'} width={'100%'} borderRadius={10} display={'flex'} justifyContent={'start'} flexDirection={'row'}>
-                    {/* '#13121D' */}
                     <Box height={'100%'} width={'7%'} display={'flex'} justifyContent={'center'} alignItems={'center'} >
                         <Avatar alt="avatar" src={images} size="lg" />
                     </Box>

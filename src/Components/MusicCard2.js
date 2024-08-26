@@ -1,7 +1,5 @@
 import { React, useState } from 'react';
-// import AnimateHeight from 'react-animate-height'
-import { Card, CardCover, CardContent, Typography, Button, Box } from '@mui/joy';
-// import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import { Card, CardCover, CardContent, Typography, Box } from '@mui/joy';
 import images from "./images.jpeg"
 import BuyPopModel from './BuyPopModel';
 
@@ -25,7 +23,6 @@ function MusicCard2() {
                 Paradise
             </Typography>
             <Typography
-                // startDecorator={<LocationOnRoundedIcon />}
                 textColor="neutral.300"
             >
                 Justin Bieber, Selena Gomez...
@@ -35,16 +32,8 @@ function MusicCard2() {
 
     const cost = (
         <CardContent style={{ justifyContent: 'flex-end', height: { height } }}>
-            {/* <Box sx={{transition: 'height 0.3s ease-in-out', height: height}}>
-                <Button variant='solid' fullWidth>
-                    18$
-                </Button>
-            </Box> */}
             <Box>
                 <BuyPopModel></BuyPopModel>
-                {/* <Button variant='solid' fullWidth>
-                    18$
-                </Button> */}
             </Box>
         </CardContent>
     )

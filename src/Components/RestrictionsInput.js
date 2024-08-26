@@ -1,13 +1,9 @@
 import * as React from 'react';
-// import Box from '@mui/joy/Box';
-// import Button from '@mui/joy/Button';
-// import IconButton from '@mui/joy/IconButton';
 import Textarea from '@mui/joy/Textarea';
 import Typography from '@mui/joy/Typography';
 
 export default function RestrictionsInput({restriction, restrictionf}) {
-    // const [text, setText] = React.useState('');
-    // const addEmoji = (emoji) => () => setText(`${text}${emoji}`);
+    
     return (
         <Textarea
             placeholder="Type in here…"

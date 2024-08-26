@@ -1,6 +1,5 @@
-import {React, forwardRef, useState} from 'react'
-import { Box, Input, FormControl, FormHelperText, FormLabel, Textarea, Typography, Button, CircularProgress } from '@mui/joy'
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import {React, useState} from 'react'
+import { Box, Input, FormLabel, Typography, Button, CircularProgress } from '@mui/joy'
 import CostInput from '../Components/CostInput';
 import RestrictionsInput from '../Components/RestrictionsInput';
 import './SellersAddCollections.css'
@@ -9,42 +8,6 @@ import CollaberatorsData from '../Components/CollaberatorsData';
 import UploadMusicPic from '../Components/UploadMusicPic';
 import UploadMusicAudio from '../Components/UploadMusicAudio';
 import { addSongToSeller } from '../Backend/Data';
-
-// const NumericFormatAdapter = forwardRef(
-//     function NumericFormatAdapter(props, ref) {
-//         const { onChange, ...other } = props;
-
-//         return (
-//             <NumericFormat
-//                 {...other}
-//                 getInputRef={ref}
-//                 onValueChange={(values) => {
-//                     onChange({
-//                         target: {
-//                             name: props.name,
-//                             value: values.value,
-//                         },
-//                     });
-//                 }}
-//                 thousandSeparator
-//                 valueIsNumericString
-//                 prefix="$"
-//             />
-//         );
-//     },
-// );
-
-
-
-// function CollabList(list, setlist, push) {
-//     if (push){
-//         list.push((<CollaberatorsData collaboratorsnf={a} collaboratorsef={a2} collaboratorspf={a3}></CollaberatorsData>))
-//         setlist(list)
-//     }else{
-//         list.pop()
-//         setlist(list)
-//     }
-// }
 
 
 
@@ -77,19 +40,17 @@ function SellersAddCollections({uid}) {
             setlist(list)
         }
     }
-    // const [value, setValue] = useState('');
+
     const [ImageFile, ImageFilef] = useState(undefined);
     const [AudioFile, AudioFilef] = useState(undefined);
     const [count, setCount] = useState(1)
     const [list, setlist] = useState([<CollaberatorsData collaboratorsnf={a} collaboratorsef={a2} collaboratorspf={a3} ></CollaberatorsData>])
     const [cost, costf] = useState('');
-    // const [value, setValue] = useState('1320');
     const [music_name, music_namef] = useState('');
     const [restriction, restrictionf] = useState('');
     const [artist_name, artist_namef] = useState(''); 
     let [collaborators, collaboratorsf] = useState([]);
     let [isLoading, isLoadingf] = useState(false);
-    // let collaborators = []
 
     function AddCollab(incriment){
         let data = {
@@ -107,15 +68,6 @@ function SellersAddCollections({uid}) {
         }
         console.log(data)
     }
-
-    // await setDoc(songRef, {
-    //     song_id: songid,
-    //     song_by: songData.song_by,
-    //     song_name: songData.song_name,
-    //     song_price: songData.song_price,
-    //     restrictions: songData.restrictions,
-    //     collaborators: songData.collaborators || [],
-    // });
 
 
     function click(){
@@ -138,9 +90,6 @@ function SellersAddCollections({uid}) {
             console.log('song added')
             isLoadingf(false)
         })
-        // console.log('done')
-        // collaboratorsf(collaborators = ar)
-        // console.log(collaborators)
     }
 
     return (

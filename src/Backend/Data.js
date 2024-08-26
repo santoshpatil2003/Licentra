@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where, increment} from "firebase/firestore";
+import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where, increment, arrayUnion, runTransaction} from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../firebase";
 
@@ -484,6 +484,113 @@ export async function getSoldSongDataSeller(uid) {
         return { success: false, error: error.message };
     }
 }
+// first function
+// async function updateAmountMadeOn(uid, newAmount, month, year) {
+//     const userDocRef = doc(db,"seller",uid);
+
+//     try {
+//         await runTransaction(db, async (transaction) => {
+//             const userDoc = await transaction.get(userDocRef);
+//             // if (!userDoc.exists()) {
+//             //     throw "Document does not exist!";
+//             // }
+
+//             const amountMadeOn = userDoc.data().amount_made_on || [];
+//             let updated = false;
+
+//             const updatedAmountMadeOn = amountMadeOn.map(entry => {
+//                 if (entry.month === month && entry.year === year) {
+//                     updated = true;
+//                     return { ...entry, amount: entry.amount + newAmount };
+//                 }
+//                 return entry;
+//             });
+
+//             if (!updated) {
+//                 updatedAmountMadeOn.push({ amount: newAmount, month, year });
+//             }
+
+//             transaction.update(userDocRef, { amount_made_on: updatedAmountMadeOn });
+//         });
+
+//         return { success: true, message: "Amount made on updated successfully" };
+//     } catch (error) {
+//         console.error("Error updating amount made on:", error);
+//         return { success: false, error: error.message };
+//     }
+// }
+
+async function updateAmountMadeOn(uid, newAmount, month, year) {
+    const userDocRef = doc(db,"seller",uid);
+
+    try {
+        await runTransaction(db, async (transaction) => {
+            const userDoc = await transaction.get(userDocRef);
+            if (!userDoc.exists()) {
+                throw "Document does not exist!";
+            }
+
+            const amountMadeOn = userDoc.data().amount_made_on || [];
+            let updated = false;
+
+            const updatedAmountMadeOn = amountMadeOn.map(entry => {
+                if (entry.month === month && entry.year === year) {
+                    updated = true;
+                    // Convert both amounts to numbers before adding
+                    const updatedAmount = Number(entry.amount) + Number(newAmount);
+                    return { ...entry, amount: updatedAmount.toString() };
+                }
+                return entry;
+            });
+
+            if (!updated) {
+                updatedAmountMadeOn.push({ amount: newAmount.toString(), month, year });
+            }
+
+            transaction.update(userDocRef, { amount_made_on: updatedAmountMadeOn });
+        });
+
+        return { success: true, message: "Amount made on updated successfully" };
+    } catch (error) {
+        console.error("Error updating amount made on:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+
+//third function
+// async function updateAmountMadeOn(uid, newAmount, month, year) {
+//     const userDocRef = doc(db,"seller",uid);
+
+//     try {
+//         await runTransaction(db, async (transaction) => {
+//             const userDoc = await transaction.get(userDocRef);
+//             if (!userDoc.exists()) {
+//                 throw "Document does not exist!";
+//             }
+
+//             const amountMadeOn = userDoc.data().amount_made_on || [];
+//             let entryIndex = amountMadeOn.findIndex(entry => entry.month === month && entry.year === year);
+
+//             if (entryIndex !== -1) {
+//                 // Update existing entry
+//                 transaction.update(userDocRef, {
+//                     [`amount_made_on.${entryIndex}.amount`]: increment(newAmount)
+//                 });
+//             } else {
+//                 // Add new entry
+//                 transaction.update(userDocRef, {
+//                     amount_made_on: [...amountMadeOn, { amount: newAmount, month, year }]
+//                 });
+//             }
+//         });
+
+//         return { success: true, message: "Amount made on updated successfully" };
+//     } catch (error) {
+//         console.error("Error updating amount made on:", error);
+//         return { success: false, error: error.message };
+//     }
+// }
 
 export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use_case) {
     // const date = Date.now()           b_uid, s_uid, songid, price
@@ -495,7 +602,7 @@ export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use
         l.forEach((e)=>{
             d = `${d} ` + e
         })
-        return d
+        return {date: d, month: l[0], year: l[2]}
     }
 
     try {
@@ -505,19 +612,20 @@ export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use
         const s_songRef = doc(db,"seller",s_uid,"sold_song_list",songid);
         const global_songRef = doc(db,"musics","transactions","musics_list",songid);
 
-        const sellerRef = doc(db,"seller",s_uid);
+        // const sellerRef = doc(db,"seller",s_uid);
 
         const date = CreateDate()
         
-        await updateDoc(sellerRef, {
-            amount_made: increment(price)
-        });
+        // await updateDoc(sellerRef, {
+        //     amount_made_on: increment(price)
+        // });
+        await updateAmountMadeOn(s_uid, price, date.month, date.year)
         
         await setDoc(b_songRef, {
             buyer_id: b_uid,
             seller_id: s_uid,
             use_case: use_case,
-            date: date,
+            date: date.date,
             ...musicData.data
         });
 
@@ -525,7 +633,7 @@ export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use
             buyer_id: b_uid,
             seller_id: s_uid,
             use_case: use_case,
-            date: date,
+            date: date.date,
             ...musicData.data
         });
 
@@ -533,7 +641,7 @@ export async function TransactionSellerAndBuyer(b_uid, s_uid, songid, price, use
             buyer_id: b_uid,
             seller_id: s_uid,
             use_case: use_case,
-            date: date,
+            date: date.date,
             ...musicData.data
         });
 
@@ -571,6 +679,24 @@ export async function getSongDataSellerAll(uid) {
         });
 
         return { success: true, songs: songList };
+    } catch (error) {
+        console.error("Error getting song data:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function getSales(uid) {
+    try {
+        // console.log(uid)
+        console.log("getSales", uid)
+        const songListRef = doc(db,"seller",uid);
+
+        const querySnapshot = await getDoc(songListRef);
+        // const songList = [];
+
+        let data = querySnapshot.data()
+
+        return { success: true, songs: data.amount_made_on};
     } catch (error) {
         console.error("Error getting song data:", error);
         return { success: false, error: error.message };

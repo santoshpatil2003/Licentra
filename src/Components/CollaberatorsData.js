@@ -2,17 +2,6 @@ import { React, useState } from 'react'
 import { Box, Input, FormLabel, FormControl } from '@mui/joy'
 import CollaberatorProfileCard from './CollaberatorProfileCard';
 
-// function a(e){
-//     collaboratorsnf(e.target.value)
-// }
-
-// function a2(e){
-//     collaboratorsef(e.target.value)
-// }
-
-// function a3(e){
-//     collaboratorspf(e.target.value)
-// }
 
 function CollaberatorsData({ collaboratorsnf, collaboratorsef, collaboratorspf }) {
     const [boxl, boxlf] = useState('');

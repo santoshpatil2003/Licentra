@@ -1,16 +1,5 @@
-import { React, useState } from 'react';
+import { React} from 'react';
 import { Card, CardCover, CardContent, Typography, Button, Box } from '@mui/joy';
-import images from "./images.jpeg"
-
-// const enter = (showf, setHeight, height) => {
-//     showf(true)
-//     setHeight(height === 0 ? '20%' : 0)
-// }
-
-// const leave = (showf, setHeight, height) => {
-//     showf(false)
-//     setHeight(height = 0)
-// }
 
 
 function BuyMusicCard({ button_desable, song_name, song_by, cost2, pic }) {
@@ -41,7 +30,6 @@ function BuyMusicCard({ button_desable, song_name, song_by, cost2, pic }) {
     ) 
     return (
         <Box bgcolor={'#13121D'} height={'25%'} width={'95%'} borderRadius={10} display={'flex'} flexDirection={'row'} >
-            {/* '#13121D' */}
             <Box height={'100%'} width={'40%'} display={'flex'} justifyContent={'center'} alignItems={'center'} >
                 <Card sx={{ width: '60%', height: '60%' }}>
                     <CardCover>
@@ -59,12 +47,6 @@ function BuyMusicCard({ button_desable, song_name, song_by, cost2, pic }) {
                     </Box>
                 </Box>
             </Box>
-            {/* <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                {title}
-            </Box>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'14%'} >
-                {cost}
-            </Box> */}
         </Box>
     )
 }

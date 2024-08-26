@@ -1,27 +1,64 @@
 import {React, useState} from 'react';
-import { Box, Button, Grid, IconButton } from '@mui/joy';
-import MusicCard2 from './MusicCard2';
-import {SearchRounded} from '@mui/icons-material';
-import {sign_out} from '../Backend/Auth'
-import SearchBar from './SearchBar';
-// import './Main.css';
+import { Box, Typography} from '@mui/joy';
+// import MusicCard2 from './MusicCard2';
+// import SearchBar from './SearchBar';
+// import SalesGraph from './SalesGraph';
+import SalesBarGraph from './SalesBarGraph';
 
-function Main() {
+function Main({uid}) {
     let [search, searchf] = useState(false);
+    let [totalsales, totalsalesf] = useState(0)
     return (
-        <Box sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'100vh'} maxHeight={'100vh'} >
-            <SearchBar search={search} searchf={searchf}></SearchBar>
-            {/* <div className="custom-scrollbar"> */}
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'2%'} paddingTop={'1%'}>
-                    {Array.from(Array(12)).map((_, index) => (
-                        <Grid xs={2} sm={4} md={4} key={index}>
-                            <MusicCard2 />
-                        </Grid>
-                    ))}
-                </Grid>
+        <Box justifyContent={'center'} alignItems={'center'} sx={{overflowY: 'auto', '&::-webkit-scrollbar':{width: '12px'}, '&::-webkit-scrollbar-thumb':{backgroundColor: '#13121D', borderRadius: '10px'}, '&::-webkit-scrollbar-track':{backgroundColor: '#070C12', borderRadius: '10px'}}} display={'flex'} flexDirection={'column'} width={'75vw'} height={'100vh'} maxHeight={'100vh'} >
+            <Box height={'90%'} width={'97%'} >
+                <Box display={'flex'} height={'20%'} width={'100%'} sx={{borderStyle: 'solid', borderColor: 'gray', borderWidth: '1px'}}>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'100%'} width={'25%'} sx={{borderRight: '1px solid gray'}}>
+                        <Box width={'fit-content'} height={'fit-content'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>Total Sales</Typography>
+                            </Box>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>{`${totalsales}$`}</Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'100%'} width={'25%'} sx={{borderRight: '1px solid gray'}}>
+                        <Box width={'fit-content'} height={'fit-content'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>Sold</Typography>
+                            </Box>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>0</Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'100%'} width={'25%'} sx={{borderRight: '1px solid gray'}}>
+                        <Box width={'fit-content'} height={'fit-content'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>Collections</Typography>
+                            </Box>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>0</Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'100%'} width={'25%'}>
+                        <Box width={'fit-content'} height={'fit-content'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>Customer</Typography>
+                            </Box>
+                            <Box width={'fit-content'}>
+                                <Typography sx={{color: 'white'}}>0</Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Box>
+                {/* graph */}
+                <Box height={'80%'}>
+                    {/* <SalesGraph></SalesGraph> */}
+                    <SalesBarGraph uid={uid} totalsales={totalsales} totalsalesf={totalsalesf} ></SalesBarGraph>
+                </Box>
             </Box>
-            {/* </div> */}
         </Box>
     );
 }
@@ -38,32 +75,32 @@ export default Main;
 
 
 
-// import React from 'react'
-// import { Box, Grid, Input, ListItem } from '@mui/joy';
-// import MusicCard from './MusicCard';
 
-// function Main() {
-//     return (
-//         <Box display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-//             <Box height={'12%'} maxHeight={'12%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-//                 <Box flexBasis={'65%'} borderRadius={100} height={'60%'}>
-//                     {/* <Input placeholder="Type in here…" variant="outlined" size='lg' fullWidth/> */}
-//                     <input placeholder="Search artist here..." style={{ height: '100%', border: 'None', width: "100%", borderRadius: 100, paddingLeft: 25, paddingRight: 10, outline: 'none', backgroundColor: '#13121D', color: 'white', fontSize: '1.025rem' }}></input>
-//                 </Box>
-//             </Box>
-//             <div style={{ scrollBehavior: 'smooth', overflowY: 'scroll', '&::-webkit-scrollbar-thumb':{backgroundColor: 'red'}, '&::-webkit-scrollbar-track':{backgroundColor:"red"} }}>
-//                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-//                     <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 16 }} width={'100%'} paddingLeft={'4%'} paddingTop={'1%'}>
-//                         {Array.from(Array(12)).map((_, index) => (
-//                             <Grid xs={2} sm={4} md={4} key={index}>
-//                                 <MusicCard></MusicCard>
-//                             </Grid>
-//                         ))}
-//                     </Grid>
-//                 </Box>
-//             </div>
-//         </Box>
-//     )
-// }
 
-// export default Main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

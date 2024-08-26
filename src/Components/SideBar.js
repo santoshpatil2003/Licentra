@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react'
 import { Box, Typography } from '@mui/joy';
 import SideBarButtons from './SideBarButtons';
 import images from "./images.jpeg"
-import { getBuyer, getSeller } from '../Backend/Data';
+import {getSeller } from '../Backend/Data';
 
 function SideBar({select_click, selected, uid}) {
     const [b_user_data, b_user_data_f] = useState({});
@@ -10,12 +10,11 @@ function SideBar({select_click, selected, uid}) {
     useEffect(()=>{
         const fetch = async () => {
             let ob = await getSeller(uid)
-            // console.log(ob)
             b_user_data_f(ob.data)
         }
         fetch()
     },[uid]);
-    // console.log(b_user_data)
+    
     return (
         <Box maxWidth={"25vw"} maxHeight={'100vh'} height={"100vh"} bgcolor={'#13121D'} display={'flex'} flexDirection={'column'} flexBasis={"30%"}>
             <Box height={"40vh"} display={'flex'} justifyContent={'center'} alignItems={'end'}>
