@@ -4,7 +4,7 @@ import BuyPopModel from './BuyPopModel';
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
 import PauseCircleFilledOutlinedIcon from '@mui/icons-material/PauseCircleFilledOutlined';
 import { downloadSong } from '../Backend/Data';
-import Audiof from '../Backend/KALEO - Way Down We Go (Official Music Video) [TubeRipper.com].mp3'
+// import Audiof from '../Backend/KALEO - Way Down We Go (Official Music Video) [TubeRipper.com].mp3'
 
 const enter = (showf, setHeight, height) => {
     showf(true)
@@ -21,8 +21,9 @@ function MusicCard({b_uid, uid, data }) {
     const [show, showf] = useState(false);
     const [height, setHeight] = useState(0);
     let [pause, pausef] = useState(true)
-    let [SongUrl, SongUrlf] = useState('')
-    let song = new Audio(Audiof)
+    // let [SongUrl, SongUrlf] = useState('')
+    // let song = new Audio(Audiof)
+    let song = new Audio(data.song_url)
     const audioRef = useRef(song)
     
     const playAudio = () => {
@@ -38,17 +39,17 @@ function MusicCard({b_uid, uid, data }) {
         }
     };
 
-    async function name() {
-        let url = await downloadSong(data.seller_id,data.song_id,data.song_name)
-        console.log(url.song)
-        SongUrlf(url.song)
-    }
+    // async function name() {
+    //     let url = await downloadSong(data.seller_id,data.song_id,data.song_name)
+    //     console.log(url.song)
+    //     SongUrlf(url.song)
+    // }
 
-    useEffect(()=>{
+    // useEffect(()=>{
         
-        name() 
+    //     name() 
         
-    },[]);
+    // },[]);
 
 
     const title = (

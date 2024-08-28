@@ -52,6 +52,11 @@ function SellersAddCollections({uid}) {
     let [collaborators, collaboratorsf] = useState([]);
     let [isLoading, isLoadingf] = useState(false);
 
+
+    // if (AudioFile !== undefined){
+    //     console.log(`the size of the file is ${AudioFile.size}`)
+    // }
+
     function AddCollab(incriment){
         let data = {
             'name' : collaboratorsn,
@@ -123,7 +128,7 @@ function SellersAddCollections({uid}) {
                             {list.map((course) => course)}
                         </Box>
                         <Box height={'15%'} marginTop={'1%'} display={'flex'} justifyContent={'space-between'} alignItems={'center'} sx={{zIndex: 1}} >
-                            <UploadMusicAudio variant={'contained'} AudioFile={AudioFilef} ></UploadMusicAudio>
+                            <UploadMusicAudio variant={'contained'} AudioFilef={AudioFilef} ></UploadMusicAudio>
                             {/* <Button variant='solid' onClick={()=>{click()}} >Sync Up</Button> */}
                             <Button variant='solid' onClick={()=>{click()}} >{isLoading?<CircularProgress size="sm" />: 'Sync Up'}</Button>
                         </Box>

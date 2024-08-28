@@ -5,6 +5,7 @@ import { Box, Typography} from '@mui/joy';
 // import SalesGraph from './SalesGraph';
 import SalesBarGraph from './SalesBarGraph';
 import { getSeller, getSongDataSellerAll } from '../Backend/Data';
+import BarChart from './BarChart';
 
 function Main({uid}) {
     let [totalsales, totalsalesf] = useState(0)
@@ -68,8 +69,10 @@ function Main({uid}) {
                 </Box>
                 {/* graph */}
                 <Box height={'80%'} width={'100%'}>
-                    <Box bgcolor={'whitesmoke'} height={'100%'} width={'100%'} sx={{borderStyle: 'solid', borderColor: '#262626', borderWidth: '1px'}}>
-                        <SalesBarGraph uid={uid} totalsales={totalsales} totalsalesf={totalsalesf} ></SalesBarGraph>
+                    <Box height={'100%'} width={'100%'} sx={{borderStyle: 'solid', borderColor: '#262626', borderWidth: '1px'}}>
+                        {/* <SalesBarGraph uid={uid} totalsales={totalsales} totalsalesf={totalsalesf} ></SalesBarGraph> */}
+                        {/* <BarChart></BarChart> */}
+                        <BarChart uid={uid} totalsales={totalsales} totalsalesf={totalsalesf}></BarChart>
                     </Box>
                     {/* <SalesGraph></SalesGraph> */}
                 </Box>

@@ -31,7 +31,7 @@ function CollectionPageBuyer({ uid }) {
 
     return (
         <Box sx={{ overflowY: 'auto', '&::-webkit-scrollbar': { width: '12px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#13121D', borderRadius: '10px' }, '&::-webkit-scrollbar-track': { backgroundColor: '#070C12', borderRadius: '10px' } }} display={'flex'} flexDirection={'column'} maxHeight={'100vh'} flexBasis={"80%"}>
-            <SearchBar search={search} searchf={searchf}></SearchBar>
+            {/* <SearchBar search={search} searchf={searchf}></SearchBar> */}
             {
                 list2.length === 0?
                 <Box height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>

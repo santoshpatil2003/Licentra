@@ -1,5 +1,5 @@
 import { doc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, collection, query, where, increment, arrayUnion, runTransaction} from "firebase/firestore";
-import { ref, uploadBytes, deleteObject, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, deleteObject, getDownloadURL,uploadBytesResumable } from "firebase/storage";
 import { storage, db } from "../firebase";
 
 // usernameTaken: async (name) => {
@@ -208,6 +208,7 @@ async function addSongToGlobal(uid, songData, songid) {
             song_price: songData.song_price,
             restrictions: songData.restrictions,
             collaborators: songData.collaborators || [],
+            song_url: songData.song_url,
         });
 
         return { success: true, message: "Song added successfully" };
@@ -346,20 +347,81 @@ export async function downloadSong(uid, songId, songName) {
     }
 }
 
-// Function to add a song to a seller's song list
+// // Function to add a song to a seller's song list
+// async function addSongToSeller(uid, songData, songFile, songPicFile) {
+//     const date = Date.now()
+//     let songid = date.toString()
+//     try {
+//         // console.log(date.toString()) 
+//         const songRef = doc(db,"seller",uid,"s_song_list",songid);
+
+//         // Upload song file to Cloud Storage
+//         const songFileRef = ref(
+//             storage,
+//             `user_files/seller/${uid}/songs/${songid}/${songData.song_name}.mp3`
+//         );
+//         const metadata = {
+//             contentType: 'audio/mpeg',
+//         };
+//         await uploadBytes(songFileRef, songFile,);
+
+//         // Upload song picture to Cloud Storage
+//         const songPicFileRef = ref(
+//             storage,
+//             `user_files/seller/${uid}/songs/${songid}/${songData.song_name}.jpg`
+//         );
+//         await uploadBytes(songPicFileRef, songPicFile);
+
+//         const songPicUrl = await getDownloadURL(songPicFileRef);
+
+//         // Add song data to Firestore
+//         await setDoc(songRef, {
+//             song_id: songid,
+//             song_by: songData.song_by,
+//             song_pic_url: songPicUrl,
+//             song_name: songData.song_name,
+//             song_price: songData.song_price,
+//             restrictions: songData.restrictions,
+//             collaborators: songData.collaborators || [],
+//         });
+
+//         let d = {
+//             song_id: songid,
+//             song_by: songData.song_by,
+//             seller_id: uid,
+//             song_pic_url: songPicUrl,
+//             song_name: songData.song_name,
+//             song_price: songData.song_price,
+//             restrictions: songData.restrictions,
+//             collaborators: songData.collaborators || [],
+//         }
+
+//         let result = await addSongToGlobal(uid, d, songid)
+
+//         return { success: result.success, message: result.message };
+//     } catch (error) {
+//         console.error("Error adding song:", error);
+//         return { success: false, error: error.message };
+//     }
+// }
+
+
 async function addSongToSeller(uid, songData, songFile, songPicFile) {
-    const date = Date.now()
-    let songid = date.toString()
+    const date = Date.now();
+    const songid = date.toString();
+
     try {
-        // console.log(date.toString()) 
-        const songRef = doc(db,"seller",uid,"s_song_list",songid);
+        const songRef = doc(db, "seller", uid, "s_song_list", songid);
 
         // Upload song file to Cloud Storage
         const songFileRef = ref(
             storage,
             `user_files/seller/${uid}/songs/${songid}/${songData.song_name}.mp3`
         );
-        await uploadBytes(songFileRef, songFile);
+        const songMetadata = {
+            contentType: 'audio/mpeg',
+        };
+        await uploadBytes(songFileRef, songFile, songMetadata);
 
         // Upload song picture to Cloud Storage
         const songPicFileRef = ref(
@@ -368,7 +430,10 @@ async function addSongToSeller(uid, songData, songFile, songPicFile) {
         );
         await uploadBytes(songPicFileRef, songPicFile);
 
+        // Get the download URL for the song picture
         const songPicUrl = await getDownloadURL(songPicFileRef);
+
+        const downloadSongURL = await getDownloadURL(songFileRef);
 
         // Add song data to Firestore
         await setDoc(songRef, {
@@ -379,8 +444,10 @@ async function addSongToSeller(uid, songData, songFile, songPicFile) {
             song_price: songData.song_price,
             restrictions: songData.restrictions,
             collaborators: songData.collaborators || [],
+            song_url: downloadSongURL,
         });
 
+        // Prepare the data to add to global
         let d = {
             song_id: songid,
             song_by: songData.song_by,
@@ -390,9 +457,10 @@ async function addSongToSeller(uid, songData, songFile, songPicFile) {
             song_price: songData.song_price,
             restrictions: songData.restrictions,
             collaborators: songData.collaborators || [],
-        }
+            song_url: downloadSongURL,
+        };
 
-        let result = await addSongToGlobal(uid, d, songid)
+        let result = await addSongToGlobal(uid, d, songid);
 
         return { success: result.success, message: result.message };
     } catch (error) {
@@ -863,6 +931,7 @@ async function addPurchasedSongToBuyer(
             song_price: songData.song_price,
             restrictions: songData.restrictions,
             collaborators: songData.collaborators || {},
+            song_url: songData.song_url,
         });
 
         // Upload song file to Cloud Storage

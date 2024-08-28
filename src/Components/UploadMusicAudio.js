@@ -18,12 +18,14 @@ const VisuallyHiddenInput = styled('input')({
 export default function UploadMusicAudio({ variant, AudioFilef }) {
     const [fileAdded, setFileAdded] = useState(false);
 
+
     const handleFileChange = (event) => {
         const file = event.target.files[0]; 
         if (file) {
             if (file.type.startsWith('audio/')) {
                 if (typeof AudioFilef === 'function') {
                     AudioFilef(file);
+                    console.log(`the size of the file is ${file.size}`)
                 } else {
                     console.error('AudioFilef is not a function');
                 }
